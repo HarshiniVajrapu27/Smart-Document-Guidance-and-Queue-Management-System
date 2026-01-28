@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { servicesData } from '../data/services';
+import { t, serviceTitle, serviceList } from '../utils/i18n';
 import { generateToken } from '../utils/token';
 
 export default function Details(){
@@ -19,7 +20,7 @@ export default function Details(){
 
   if (!servicesData[key]) return <div className="p-6">Service not found</div>;
   const data = servicesData[key];
-  const list = data.en;
+  const list = serviceList(data);
 
   const toggleCheck = (i) => {
     setChecked(prev => ({ ...prev, [i]: !prev[i]}));
@@ -41,7 +42,7 @@ export default function Details(){
     const position = appointments.filter(a => a.date === formatted).length + 1;
     const token = generateToken(form.name);
     const bookedAt = new Date().toLocaleString('en-IN');
-    const serviceName = data.titleEn;
+    const serviceName = serviceTitle(data);
     const apt = { token, service: serviceName, name: form.name, mobile: form.mobile, date: formatted, time: selectedTime, bookedAt, position };
     const newList = [...appointments, apt];
     localStorage.setItem('appointments', JSON.stringify(newList));
@@ -57,8 +58,8 @@ export default function Details(){
 
   return (
     <div className="p-6 max-w-3xl mx-auto">
-      <h2 className="text-2xl mb-2">{data.titleEn}</h2>
-      <p className="text-orange-600 font-bold">📋 Required Documents</p>
+      <h2 className="text-2xl mb-2">{serviceTitle(data)}</h2>
+      <p className="text-orange-600 font-bold">{t('requiredDocuments')}</p>
 
       <div className="mt-4">
         <div className="w-full bg-gray-200 rounded h-4 overflow-hidden">
@@ -76,43 +77,43 @@ export default function Details(){
         ))}
       </ul>
 
-      {percent === 100 && (
+        {percent === 100 && (
         <div className="mt-4">
-          <button className="w-full bg-orange-500 text-white py-2 rounded" onClick={()=>setShowBooking(true)}>✅ Proceed to Booking →</button>
+          <button className="w-full bg-orange-500 text-white py-2 rounded" onClick={()=>setShowBooking(true)}>{t('proceedToBooking')}</button>
         </div>
       )}
 
       {showBooking && (
         <div className="mt-6 p-4 bg-blue-50 rounded">
-          <h3 className="text-lg text-blue-700">📅 Book Your Appointment</h3>
+          <h3 className="text-lg text-blue-700">{t('bookAppointmentTitle')}</h3>
           <div className="mt-3 space-y-3">
             <div>
-              <label className="block font-semibold">Your Name:</label>
+              <label className="block font-semibold">{t('yourName')}</label>
               <input className="w-full p-2 border rounded" value={form.name} onChange={e=>setForm(f=>({...f, name: e.target.value}))} />
             </div>
             <div>
-              <label className="block font-semibold">Mobile Number:</label>
+              <label className="block font-semibold">{t('mobileNumber')}</label>
               <input className="w-full p-2 border rounded" value={form.mobile} onChange={e=>setForm(f=>({...f, mobile: e.target.value}))} maxLength={10} />
             </div>
             <div>
-              <label className="block font-semibold">Select Date:</label>
+              <label className="block font-semibold">{t('selectDate')}</label>
               <input type="date" className="p-2 border rounded w-full" value={form.date} min={new Date().toISOString().split('T')[0]} onChange={e=>setForm(f=>({...f, date: e.target.value}))} />
             </div>
             <div>
-              <h4 className="font-semibold">Available Time Slots:</h4>
+              <h4 className="font-semibold">{t('availableSlots')}</h4>
               <div className="grid grid-cols-3 gap-2 mt-2">
                 {times.map(t=> (
                   <div key={t} className={`p-2 border rounded text-center cursor-pointer ${selectedTime===t? 'bg-green-500 text-white':'bg-white'}`} onClick={()=>setSelectedTime(t)}>{t}</div>
                 ))}
               </div>
             </div>
-            <button className="w-full bg-green-600 text-white py-2 rounded" onClick={confirmAppointment}>✅ Confirm & Get Token</button>
+            <button className="w-full bg-green-600 text-white py-2 rounded" onClick={confirmAppointment}>{t('confirmGetToken')}</button>
           </div>
         </div>
       )}
 
       <div className="mt-6">
-        <button className="px-4 py-2 border rounded" onClick={()=>navigate('/services')}>← Back to Services</button>
+        <button className="px-4 py-2 border rounded" onClick={()=>navigate('/services')}>{t('backToServices')}</button>
       </div>
     </div>
   );

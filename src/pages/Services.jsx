@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { servicesData } from '../data/services';
+import { serviceTitle } from '../utils/i18n';
 
 export default function Services(){
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ export default function Services(){
       <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
         {Object.keys(servicesData).map(key => (
           <div key={key} className="bg-white rounded p-4 shadow cursor-pointer hover:scale-105 transition" onClick={()=>navigate(`/details/${key}`)}>
-            <div className="text-2xl">{servicesData[key].titleEn}</div>
+            <div className="text-2xl">{serviceTitle(servicesData[key])}</div>
           </div>
         ))}
       </div>

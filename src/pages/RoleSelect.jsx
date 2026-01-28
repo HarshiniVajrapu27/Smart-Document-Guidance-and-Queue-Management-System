@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { t } from '../utils/i18n';
 
 export default function RoleSelect(){
   const navigate = useNavigate();
@@ -8,10 +9,10 @@ export default function RoleSelect(){
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="p-6 bg-white rounded shadow-md w-full max-w-md text-center">
-        <h2 className="text-xl font-bold mb-4">Select Role</h2>
+        <h2 className="text-xl font-bold mb-4">{t('selectRole')}</h2>
         <div className="flex gap-4 justify-center">
-          <button className="px-6 py-3 bg-blue-600 text-white rounded" onClick={selectCitizen}>Citizen</button>
-          <button className="px-6 py-3 border border-orange-400 text-orange-600 rounded" onClick={selectOfficer}>Officer</button>
+          <button className="px-6 py-3 bg-blue-600 text-white rounded" onClick={selectCitizen}>{t('citizen')}</button>
+          <button className="px-6 py-3 border border-orange-400 text-orange-600 rounded" onClick={selectOfficer}>{t('officer')}</button>
         </div>
       </div>
     </div>
